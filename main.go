@@ -55,7 +55,7 @@ func init() {
 
 func gitClone(repository string, version string, moduleName string) {
 	log.Printf("[*] Checking out %s of %s \n", version, repository)
-	cmd := exec.Command("git", "clone", "--single-branch", "--depth=1", "-b", version, repository, moduleName)
+	cmd := exec.Command("git", "clone", "--single-branch", "--depth=1", "-b", version, repository, filepath.Join(moduleName, version))
 	cmd.Dir = opts.ModulePath
 	err := cmd.Run()
 	if err != nil {
@@ -86,14 +86,18 @@ func main() {
 
 	// Clone modules
 	var wg sync.WaitGroup
-	_ = os.RemoveAll(opts.ModulePath)
 	_ = os.MkdirAll(opts.ModulePath, os.ModePerm)
 	for key, mod := range config {
 		wg.Add(1)
 		go func(m module, key string) {
 			defer wg.Done()
-			gitClone(m.Source, m.Version, key)
-			_ = os.RemoveAll(filepath.Join(opts.ModulePath, key, ".git"))
+            path := filepath.Join(opts.ModulePath, key, m.Version)
+            if stat, err := os.Stat(path); err == nil && stat.IsDir() {
+                log.Errorf("[*] Path %v exists, skipping...", path)
+            } else {
+                gitClone(m.Source, m.Version, key)
+                _ = os.RemoveAll(filepath.Join(opts.ModulePath, key, m.Version, ".git"))
+            }
 		}(mod, key)
 	}
 
