@@ -16,4 +16,4 @@ vendor/modules
 terrafile
 
 #IDEs
-.idea/
+.idea/dist/
