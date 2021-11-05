@@ -1,22 +1,25 @@
-# Terrafile [![Build Status](https://circleci.com/gh/coretech/terrafile.svg?style=shield)](https://circleci.com/gh/coretech/terrafile)
+# Terrafile
+
+Forked from https://github.com/coretech/terrafile
 
 Terrafile is a binary written in Go to systematically manage external modules from Github for use in Terraform. See this [article](http://bensnape.com/2016/01/14/terraform-design-patterns-the-terrafile/) for more information on how it was introduced in a Ruby rake task.
 
 ## How to install
 
-### macOS
+Run manually:
 
-```sh
-brew tap coretech/terrafile && brew install terrafile
+```
+go run main.go
 ```
 
-### Linux
-Download your preferred flavor from the [releases](https://github.com/coretech/terrafile/releases/latest) page and install manually.
+or use `goreleaser`:
 
-For example:
-```sh
-curl -L https://github.com/coretech/terrafile/releases/download/v{VERSION}/terrafile_{VERSION}_Linux_x86_64.tar.gz | tar xz -C /usr/local/bin
 ```
+goreleaser build
+```
+
+Binaries end up in `dist/`
+
 
 ## How to use
 Terrafile expects a file named `Terrafile` which will contain your terraform module dependencies in a yaml like format.
@@ -51,9 +54,3 @@ $ terrafile -p custom_directory
 INFO[0000] [*] Checking out master of git@github.com:terraform-aws-modules/terraform-aws-vpc  
 INFO[0001] [*] Checking out v1.46.0 of git@github.com:terraform-aws-modules/terraform-aws-vpc  
 ```
-
-## TODO
-* Break out the main logic into seperate commands (e.g. version, help, run)
-* Update tests to include unit tests for broken out commands
-* Add coverage tool and badge
-* May be worth renaming Terrafile config file to something that won't be misinterpreted as the binary
