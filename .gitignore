@@ -17,3 +17,6 @@ terrafile
 
 #IDEs
 .idea/dist/
+
+# goreleaser
+dist/
