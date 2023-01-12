@@ -15,6 +15,8 @@ go run main.go
 or use `goreleaser`:
 
 ```
+# You may need to checkout a specific tag
+# git checkout -b v0.8 v0.8
 goreleaser build
 ```
 
