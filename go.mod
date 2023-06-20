@@ -1,4 +1,4 @@
-module github.com/coretech/terrafile
+module github.com/nyetsche/terrafile
 
 go 1.12
 
